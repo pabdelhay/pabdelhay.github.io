@@ -1,0 +1,10 @@
+html, body { padding: 0; margin: 0; }
+.game-bounds { width: 98%; padding: 0;  }
+.game-bounds .score { width: 15%; float: left; background-color: #EEE; padding: 10px; }
+.game-bounds .game { width: 83%; height: 100%; float: left; }
+
+.game { text-align: center; position: relative; }
+.ad { display: inline-block; position: fixed; z-index: 99999; }
+.target { position: absolute; z-index: 0; max-width: 200px; max-height: 200px; }
+
+.saved-target { font-size: 20px; }

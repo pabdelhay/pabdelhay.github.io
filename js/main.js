@@ -17,11 +17,13 @@ var startGame = function(){
 			gameOver();
 		}, TIME_LIMIT);
 		setInterval(function(){
-			var time_to_go = parseInt($('.timer').html());
-			time_to_go -= 1;
-			$('.timer').html(time_to_go);
-			if(time_to_go < 10){
-				$('.timer').addClass('red');
+			if(ad_can_move){
+				var time_to_go = parseInt($('.timer').html());
+				time_to_go -= 1;
+				$('.timer').html(time_to_go);
+				if(time_to_go < 10){
+					$('.timer').addClass('red');
+				}
 			}
 		}, 1000);
 	});

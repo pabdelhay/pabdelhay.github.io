@@ -69,13 +69,14 @@ function gameOver() {
 	} else {
 		msg = "WOOOOWWWW! You are a SUPER AdCatSaver and saved " + LEVEL + " cats from the Ads";
 	}
+	msg += "<br />Enter your name to go into the ranking."
 	bootbox.prompt(msg, function(result) {
 		if (result === null) {
 			
 		} else {
 			savePlayer(result);
 		}
-		window.location.href = ""
+		window.location.href = "thanks.html";
 	});
 }
 

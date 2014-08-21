@@ -53,9 +53,9 @@ $(document).ready(function(){
 });
 
 function savePlayer(name) {
-	$.post('http://restazero.com/adcatsaver/players', {'name': name}, function(ev){
+	//$.post('http://restazero.com/adcatsaver/players', {'name': name}, function(ev){
 		
-	});
+	//});
 }
 
 function gameOver() {
@@ -67,13 +67,13 @@ function gameOver() {
 	} else {
 		msg = "WOOOOWWWW! You are a SUPER AdCatSaver and saved " + LEVEL + " cats from the Ads";
 	}
-	bootbox.prompt("OWWW", function(result) {
+	bootbox.prompt(msg, function(result) {
 		if (result === null) {
-			//
+			
 		} else {
 			savePlayer(result);
 		}
-		//window.location.reload();
+		window.location.href = ""
 	});
 }
 

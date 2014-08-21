@@ -13,9 +13,6 @@ var startGame = function(){
 	$('.presentation').fadeOut(function(){
 		$('.game-bounds').css('height', window_height).show();
 		begin();
-		setTimeout(function(){
-			gameOver();
-		}, TIME_LIMIT);
 		setInterval(function(){
 			if(ad_can_move){
 				var time_to_go = parseInt($('.timer').html());
@@ -24,6 +21,9 @@ var startGame = function(){
 				if(time_to_go < 10){
 					$('.timer').addClass('red');
 				}
+			}
+			if(time_to_go == 0){
+				gameOver();
 			}
 		}, 1000);
 	});
@@ -35,16 +35,6 @@ $(document).ready(function(){
 		startGame();
 	});
 	
-	$('object').each(function(i, object){
-		$(object).find('[name="wmode"]').remove();
-		$(object).prepend('<param name="wmode" value="transparent" />');
-	});
-	$(document).on('mousedown', '.ad, iframe, .ads-container, #BDV_fullAd', function(ev){
-		gameOver(); 
-	});
-	$(document).on('click', '.ad, iframe, .ads-container, #BDV_fullAd', function(ev){
-		gameOver(); 
-	});
 	$(document).on('click', '.target', function(ev){
 		ev.preventDefault();
 		nextLevel();
@@ -66,7 +56,7 @@ function gameOver() {
 	var msg = "Good try. You saved " + LEVEL + " cats";
 	if(LEVEL > 20){
 		msg = "Congratsss! You are almost an AdCatSaver and saved " + LEVEL + " cats from the Ads";
-	} else {
+	} else if(LEVEL > 30) {
 		msg = "WOOOOWWWW! You are a SUPER AdCatSaver and saved " + LEVEL + " cats from the Ads";
 	}
 	msg += "<br />Enter your name to go into the ranking."

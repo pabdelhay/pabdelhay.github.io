@@ -7,4 +7,8 @@ html, body { padding: 0; margin: 0; }
 .ad { display: inline-block; position: fixed; z-index: 99999; }
 .target { position: absolute; z-index: 0; max-width: 200px; max-height: 200px; }
 
+.ad-300x250 { width: 300px; height: 250px; }
+.ad-468x60 { width: 468px; height: 60px; }
+.ad-120x600 { width: 120px; height: 600px; }
+
 .saved-target { font-size: 20px; }

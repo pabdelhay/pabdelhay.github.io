@@ -6,7 +6,7 @@ var MAX_SPEED = 1.8;
 var LEVEL;
 var AD_COUNT;
 var ad_can_move;
-var TIME_LIMIT = 1000 * 60; // microseconds
+var TIME_LIMIT = 1000 * 40; // microseconds
 
 var startGame = function(){
 	var window_height = $(window).height();
@@ -125,7 +125,7 @@ function nextLevel() {
 		SPEED += 0.2;
 	$('.saved-target').html(LEVEL);
 	
-	if(LEVEL % 10 == 0){
+	if(LEVEL % 8 == 0){
 		addAd();
 	}
 	

@@ -6,12 +6,24 @@ var MAX_SPEED = 1.8;
 var LEVEL;
 var AD_COUNT;
 var ad_can_move;
+var TIME_LIMIT = 1000 * 60; // microseconds
 
 var startGame = function(){
 	var window_height = $(window).height();
 	$('.presentation').fadeOut(function(){
 		$('.game-bounds').css('height', window_height).show();
 		begin();
+		setTimeout(function(){
+			gameOver();
+		}, TIME_LIMIT);
+		setInterval(function(){
+			var time_to_go = parseInt($('.timer').html());
+			time_to_go -= 1;
+			$('.timer').html(time_to_go);
+			if(time_to_go < 10){
+				$('.timer').addClass('red');
+			}
+		}, 1000);
 	});
 }
 
@@ -25,7 +37,10 @@ $(document).ready(function(){
 		$(object).find('[name="wmode"]').remove();
 		$(object).prepend('<param name="wmode" value="transparent" />');
 	});
-	$(document).on('click', '.ad, iframe, .ads-container', function(ev){
+	$(document).on('mousedown', '.ad, iframe, .ads-container, #BDV_fullAd', function(ev){
+		gameOver(); 
+	});
+	$(document).on('click', '.ad, iframe, .ads-container, #BDV_fullAd', function(ev){
 		gameOver(); 
 	});
 	$(document).on('click', '.target', function(ev){
@@ -46,7 +61,13 @@ function savePlayer(name) {
 function gameOver() {
 	ad_can_move = false;
 	$('.ad').css('z-index', 0);
-	bootbox.prompt("Shame on you. You let your cat been caught.<br />Leave your name to enter the ranking", function(result) {
+	var msg = "Good try. You saved " + LEVEL + " cats";
+	if(LEVEL > 20){
+		msg = "Congratsss! You are almost an AdCatSaver and saved " + LEVEL + " cats from the Ads";
+	} else {
+		msg = "WOOOOWWWW! You are a SUPER AdCatSaver and saved " + LEVEL + " cats from the Ads";
+	}
+	bootbox.prompt("OWWW", function(result) {
 		if (result === null) {
 			//
 		} else {

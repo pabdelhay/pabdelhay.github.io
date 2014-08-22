@@ -1,12 +1,14 @@
 /*
  * Globals
  */
+var RESTAZERO_URL = 'http://restazero.com'
+
 var SPEED;
 var MAX_SPEED = 1.8;
 var LEVEL;
 var AD_COUNT;
 var ad_can_move;
-var TIME_LIMIT = 1000 * 40; // microseconds
+var TIME_LIMIT = 1000 * 15; // microseconds
 
 var startGame = function(){
 	var window_height = $(window).height();
@@ -29,6 +31,20 @@ var startGame = function(){
 	});
 }
 
+var getList = function(url, on_success){
+	$.ajax({
+		type: "GET",
+		url: url,
+		dataType: 'json',
+		headers: {"Range": "items=0-10"},
+		success: function(data) {
+			on_success(data);
+		}
+	});
+}
+
+var ranking = []
+
 $(document).ready(function(){
 	$('.js-start').click(function(ev){
 		ev.preventDefault();
@@ -40,15 +56,25 @@ $(document).ready(function(){
 		nextLevel();
 	});
 	
+	$.ajax({
+		type: "GET",
+		url: RESTAZERO_URL + "/catsaver",
+		dataType: 'json',
+		headers: {"Range": "items=0-10"},
+		success: function(data) {
+			$.each(data, function(index, url){
+				getList(RESTAZERO_URL + url, function(data){
+					console.log(data);
+					ranking.push(data)
+				});
+			});
+		}
+	});
+
 	// Init.
 	
 });
 
-function savePlayer(name) {
-	//$.post('http://restazero.com/adcatsaver/players', {'name': name}, function(ev){
-		
-	//});
-}
 
 function gameOver() {
 	ad_can_move = false;
@@ -62,11 +88,23 @@ function gameOver() {
 	msg += "<br />Enter your name to go into the ranking."
 	bootbox.prompt(msg, function(result) {
 		if (result === null) {
-			
+			window.location.href = "thanks.html";
 		} else {
-			savePlayer(result);
+			$.ajax({
+		        'type': 'POST',
+		        'url': RESTAZERO_URL + "/catsaver",
+		        'contentType': 'application/json',
+		        'data': JSON.stringify({
+					"name":name,
+					"pts":points
+					}),
+		        'dataType': 'json',
+		        'success': function() {
+					window.location.href = "thanks.html";
+				}
+		    });
+
 		}
-		window.location.href = "thanks.html";
 	});
 }
 
@@ -80,7 +118,6 @@ function makeNewPosition(){
     var nw = Math.floor(Math.random() * w);
     
     return [nh,nw];
-    
 }
 
 function animateDiv(ad_selector){
@@ -110,7 +147,7 @@ function calcSpeed(prev, next) {
 
 function begin() {
 	LEVEL = 0;
-	SPEED = 0.3;
+	SPEED = 0.5;
 	AD_COUNT = 1;
 	ad_can_move = true;
 	$('.ad-1').show();

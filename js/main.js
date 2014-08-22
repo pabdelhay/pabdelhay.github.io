@@ -90,7 +90,8 @@ function gameOver() {
 		if (result === null) {
 			window.location.href = "thanks.html";
 		} else {
-			
+			//todo: save player
+			window.location.href = "thanks.html";
 		}
 	});
 }

@@ -90,20 +90,7 @@ function gameOver() {
 		if (result === null) {
 			window.location.href = "thanks.html";
 		} else {
-			$.ajax({
-		        'type': 'POST',
-		        'url': RESTAZERO_URL + "/catsaver",
-		        'contentType': 'application/json',
-		        'data': JSON.stringify({
-					"name":name,
-					"pts":points
-					}),
-		        'dataType': 'json',
-		        'success': function() {
-					window.location.href = "thanks.html";
-				}
-		    });
-
+			
 		}
 	});
 }

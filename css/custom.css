@@ -13,9 +13,8 @@ html, body { padding: 0; margin: 0; }
 
 .start { height: 40px; width: 200px; font-size: 22px; }
 
-.ranking { text-align: center; }
-.ranking table { font-size: 22px; width: 30%; margin: 0 auto; }
-.ranking table th { text-align: center; }
-.ranking table tr { margin-bottom: 10px; }
-.ranking table td { padding-left: 10px; text-align: right; width: 50%; }
-.ranking table td:last-child { text-align: left; padding-left: 30px; }
+.ranking { font-size: 22px; width: 30%; margin: 0 auto; }
+.ranking th { text-align: center; }
+.ranking tr { margin-bottom: 10px; }
+.ranking td { padding-left: 10px; text-align: right; width: 50%; }
+.ranking td:last-child { text-align: left; padding-left: 30px; }

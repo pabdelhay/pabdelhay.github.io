@@ -31,19 +31,8 @@ var startGame = function(){
 	});
 }
 
-var getList = function(url, on_success){
-	$.ajax({
-		type: "GET",
-		url: url,
-		dataType: 'json',
-		headers: {"Range": "items=0-10"},
-		success: function(data) {
-			on_success(data);
-		}
-	});
-}
-
 var ranking = []
+var players = [];
 
 $(document).ready(function(){
 	$('.js-start').click(function(ev){
@@ -56,17 +45,26 @@ $(document).ready(function(){
 		nextLevel();
 	});
 	
+	
 	$.ajax({
 		type: "GET",
-		url: RESTAZERO_URL + "/catsaver",
-		dataType: 'json',
-		headers: {"Range": "items=0-10"},
+		url: RESTAZERO_URL + "/catsaver/",
+		headers: {"Range": "items=0-10", "Accept": "application/vnd.collection+json"},
 		success: function(data) {
-			$.each(data, function(index, url){
-				getList(RESTAZERO_URL + url, function(data){
-					console.log(data);
-					ranking.push(data)
-				});
+			var items = data.collection.items;
+			$.each(items, function(i, player){
+				var player = player.data;
+				players.push(player);
+			});
+			var sorted = players.slice(0).sort(function(a, b) {
+				return b.pts - a.pts;
+			});
+			$.each(sorted, function(i, player){
+				var html = '<tr><td>' + player.name + '</td><td>'+ player.pts +'</td></tr>';
+				$('.ranking').append(html);
+				if(i > 9){
+					return;
+				}
 			});
 		}
 	});
@@ -90,9 +88,17 @@ function gameOver() {
 		if (result === null) {
 			window.location.href = "thanks.html";
 		} else {
-			//todo: save player
-			window.location.href = "thanks.html";
+			$.ajax({
+			    url: RESTAZERO_URL + "/catsaver",
+			    type: "POST",
+			    data: JSON.stringify({'name': result, 'pts': LEVEL}), 
+			    dataType: 'json',
+			    headers: {"Content-Type": "application/json"}
+			});
 		}
+		setTimeout(function(){
+			window.location.href = "thanks.html";
+		}, 2000);
 	});
 }
 
